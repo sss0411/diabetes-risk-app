@@ -58,7 +58,9 @@ input_data = pd.DataFrame({
 # Predict
 # -----------------------------
 if st.button("Predict Diabetes Risk"):
-    risk = model.predict_proba(input_data)[0][1]
+    scaled_input = scaler.transform(input_data)
+risk = model.predict_proba(scaled_input)[0][1]
+
     st.subheader(f"Predicted Diabetes Risk: {risk:.3f}")
 
     # -----------------------------
