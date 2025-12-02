@@ -88,17 +88,4 @@ if st.button("Predict Diabetes Risk"):
 
     st.write("### Risk category:", category)
 
-    # Feature importance
-    st.write("### Key contributing factors:")
-
-    importances = model.feature_importances_
-    ranked = sorted(
-        zip(importances, input_data.columns),
-        key=lambda x: x[0],
-        reverse=True
-    )
-
-    for imp, name in ranked[:5]:
-        st.write(f"**{name}** — importance: {imp:.3f}")
-
-    st.info("Explanation is based on Random Forest feature importances.")
+   
