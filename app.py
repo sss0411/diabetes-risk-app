@@ -34,12 +34,12 @@ phys_act = st.number_input("Physical Activity (min/day)", min_value=0, max_value
 smoke = st.selectbox("Smoking Status", ["No", "Yes"])
 family = st.selectbox("Family History of Diabetes", ["No", "Yes"])
 
-# Encode
 smoke = 1 if smoke == "Yes" else 0
 family = 1 if family == "Yes" else 0
 
 # -----------------------------------------------------
 # Prepare DataFrame
+# Correct column order for scaler
 # -----------------------------------------------------
 input_data = pd.DataFrame({
     "Age": [age],
@@ -51,10 +51,9 @@ input_data = pd.DataFrame({
     "Physical_Activity_min_per_day": [phys_act],
     "Daily_Calories": [daily_cal],
     "Smoking_Status": [smoke],
-    "Risk_Score": [0]   # scaler требует эту колонку
+    "Risk_Score": [0]  # required by scaler
 })
 
-# Переставляем столбцы в нужный порядок
 feature_order = [
     'Age', 'BMI', 'Blood_Pressure', 'Fasting_Glucose', 'HbA1c',
     'Family_History', 'Physical_Activity_min_per_day',
@@ -67,16 +66,11 @@ input_data = input_data[feature_order]
 # Predict
 # -----------------------------------------------------
 if st.button("Predict Diabetes Risk"):
-
-    # scale input
     scaled_input = scaler.transform(input_data)
-
-    # predict risk
     risk = model.predict_proba(scaled_input)[0][1]
 
     st.subheader(f"Predicted Diabetes Risk: {risk:.3f}")
 
-    # Risk category
     if risk < 0.20:
         category = "🟢 Low risk"
     elif risk < 0.40:
@@ -88,4 +82,4 @@ if st.button("Predict Diabetes Risk"):
 
     st.write("### Risk category:", category)
 
-   
+    st.info("This result is based on your clinical and lifestyle data.")
