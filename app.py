@@ -44,14 +44,24 @@ family = 1 if family == "Yes" else 0
 input_data = pd.DataFrame({
     "Age": [age],
     "BMI": [bmi],
-    "Fasting_Glucose": [f_glucose],
     "Blood_Pressure": [blood_pressure],
+    "Fasting_Glucose": [f_glucose],
     "HbA1c": [hba1c],
-    "Daily_Calories": [daily_cal],
+    "Family_History": [family],
     "Physical_Activity_min_per_day": [phys_act],
+    "Daily_Calories": [daily_cal],
     "Smoking_Status": [smoke],
-    "Family_History": [family]
+    "Risk_Score": [0]   # scaler требует эту колонку
 })
+
+# Переставляем столбцы в нужный порядок
+feature_order = [
+    'Age', 'BMI', 'Blood_Pressure', 'Fasting_Glucose', 'HbA1c',
+    'Family_History', 'Physical_Activity_min_per_day',
+    'Daily_Calories', 'Smoking_Status', 'Risk_Score'
+]
+
+input_data = input_data[feature_order]
 
 # -----------------------------------------------------
 # Predict
