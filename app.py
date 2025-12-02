@@ -9,10 +9,13 @@ st.set_page_config(page_title="Diabetes Risk Predictor", layout="centered")
 # Load trained model
 # -----------------------------
 @st.cache_resource
-def load_model():
-    return joblib.load("model.joblib")   # <- rename to your actual saved model file
+def load_artifacts():
+    model = joblib.load("diabetes_model.joblib")
+    scaler = joblib.load("scaler.joblib")
+    return model, scaler
 
-model = load_model()
+model, scaler = load_artifacts()
+
 
 st.title("🩺 Diabetes Risk Prediction App")
 st.write("Machine learning model for predicting diabetes risk based on clinical & lifestyle factors.")
